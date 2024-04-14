@@ -14,26 +14,32 @@ public class TSP {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (i != j) {
-                    System.out.print("Enter distance from " + (i + 1) + " to " + (j + 1) + ":=>");
+                    System.out.print("Enter distance from "+(i+1)+" to "+(j+1)+":=>");
                     a[i][j] = scan.nextInt();
                 }
             }
             visited[i] = 0;
         }
-        scan.close();
+        System.out.println("Starting node assumed to be node 1.");
+        System.out.println("The Cost adjacancy matrix is");
+        for( i=0;i<n;i++)
+        { System.out.println();
+        for( j=0;j<n;j++)
+        System.out.print(" "+a[i][j]+" ");
+        }
     }
 
     void mincost(int city) {
         visited[city] = 1;
         System.out.print((city + 1) + "->");
-        int ncity = least(city);
-        if (ncity == 999) {
-            ncity = 0;
-            System.out.println(ncity + 1);
-            cost += a[city][ncity];
+        int nxtcity = least(city);
+        if (nxtcity == 999) {
+            nxtcity = 0;
+            System.out.println(nxtcity + 1);
+            cost += a[city][nxtcity];
             return;
         }
-        mincost(ncity);
+        mincost(nxtcity);
     }
 
     int least(int c) {
@@ -41,15 +47,17 @@ public class TSP {
         int min = 999;
         int kmin = 0;
         for (int i = 0; i < n; i++) {
-            if ((a[c][i] != 0) && (visited[i] == 0))
+            if ((a[c][i] != 0) && (visited[i] == 0)) {
                 if (a[c][i] < min) {
-                    min = a[i][0] + a[c][i];
+                    min = a[c][i];
                     kmin = a[c][i];
                     nc = i;
                 }
+            }
         }
-        if (min != 999)
+        if (min != 999) {
             cost += kmin;
+        }
         return nc;
     }
 
@@ -57,7 +65,7 @@ public class TSP {
         System.out.println("Minimum cost:" + cost);
     }
 
-    public static void main(String args[]) {
+    public static void main(String []args) {
         TSP t = new TSP();
         System.out.println("The Optimal Path is:");
         t.mincost(0);
